@@ -1,0 +1,82 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.acornfinance.com/api-sign-up
+docs:
+- https://docs.acornfinance.com/api-sign-up
+- https://docs.acornfinance.com/api-active-credential
+- https://docs.acornfinance.com/api-company-user
+note: >-
+  Derived by reading the Acorn Finance partner documentation directly. Acorn Finance
+  publishes no OpenAPI document, so there are no securitySchemes to parse; the model
+  below is transcribed from the provider's own "API Authorization" and "API Active
+  Credentials" pages.
+api: Acorn Finance Partner API
+base_urls:
+  production: https://api.acornfinance.com
+  testing: https://uat.api.acornfinance.com
+schemes:
+- id: basic
+  type: http
+  scheme: basic
+  in: header
+  header: Authorization
+  format: 'Authorization: Basic <base64(username:password)>'
+  description: >-
+    HTTP Basic authentication is the only mechanism Acorn Finance documents. A
+    username/password credential pair is issued per partner company, separately for
+    production and for the UAT testing environment. Every documented endpoint
+    requires it; there is no anonymous surface.
+  applies_to: all documented endpoints
+  evidence: >-
+    "We use Basic Authorization. We will create your credentials for Production and
+    Testing" — https://docs.acornfinance.com/api-sign-up
+oauth2: false
+openid_connect: false
+mutual_tls: false
+api_key_header: false
+onboarding:
+  self_service: false
+  steps:
+  - Sign your company up for Acorn Finance at https://sign-up.acornfinance.com/
+  - Email it@acornfinance.com with subject "Create API Credentials" and your company
+    name in the body
+  turnaround: within 48 hours Monday-Friday
+  issued_by_provider:
+  - production API credentials
+  - testing (UAT) API credentials
+  - a Dealer Id prefix (for example QRS- for the documented sample partner)
+  - app_company_parent_id and parent_company_name, when the partner creates child
+    companies
+  evidence: https://docs.acornfinance.com/api-sign-up
+credential_rotation:
+  supported: true
+  interval_days: 90
+  policy: >-
+    Acorn Finance rotates partner API credentials every 90 days. The provider states
+    this is a security requirement, not an option.
+  discovery_endpoint:
+    method: GET
+    production: https://api.acornfinance.com/active_credentials
+    testing: https://uat.api.acornfinance.com/active_credentials
+    description: >-
+      Returns the currently active credential pair for the calling company. Called
+      with the OLD credential, it returns the new one once it has been created;
+      if a new key has not yet been created it returns the old key unchanged.
+    response_fields:
+    - username
+    - password
+    - created_at
+    - expires_on
+    requirements:
+    - the old key must still be active
+    - the latest active key must have been created
+    - the company must be active
+  evidence: https://docs.acornfinance.com/api-active-credential
+failure_modes:
+- status: 403
+  body: '{"errors": ["Invalid Credentials"]}'
+  cause: company inactive, or the key used for Basic auth is inactive
+- status: 422
+  body: '{"errors": ["Missing Data"]}'
+  cause: required request attributes absent
+support_contact: it@acornfinance.com

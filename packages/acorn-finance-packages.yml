@@ -1,0 +1,128 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.acornfinance.com/payment-amount
+note: >-
+  Acorn Finance publishes NO client SDK in any public package registry. npm, PyPI,
+  RubyGems, crates.io, Packagist, NuGet, Maven Central and pkg.go.dev were searched
+  for "acorn-finance" / "acornfinance" and returned nothing first-party (npm results
+  are all for the unrelated `acorn` JavaScript parser). Its GitHub organisation,
+  github.com/headwaysales ("Acorn Finance", Sacramento CA), exists but publishes zero
+  public repositories. Everything Acorn distributes to integrators is a browser bundle
+  served from its own CDN, so `registry: cdn` applies throughout and there is no
+  metadata endpoint to query for a version — the versions below are read from the URL
+  path where the provider pins one, and from the CDN's Last-Modified header otherwise.
+  No `SDKs` pointer is emitted because Acorn ships no API client library.
+registries_searched:
+- registry: npm
+  query: acorn-finance, acornfinance
+  result: no first-party package
+- registry: pypi
+  result: no first-party package
+- registry: rubygems
+  result: no first-party package
+- registry: packagist
+  result: no first-party package
+- registry: nuget
+  result: no first-party package
+- registry: maven-central
+  result: no first-party package
+- registry: crates.io
+  result: no first-party package
+- registry: pkg.go.dev
+  result: no first-party package
+- registry: github
+  org: https://github.com/headwaysales
+  result: organisation exists, 0 public repositories
+packages:
+- name: af-box (Payment Amount Widget)
+  official: true
+  registry: cdn
+  kind: web-component
+  url: https://widgets-cdn.acornfinance.com/paw/v5/dist/af-box.min.js
+  version: null
+  published: '2026-08-24'
+  note: >-
+    The URL the documentation tells partners to embed is unpinned — /paw/v5/dist/
+    floats to whatever the latest v5 build is, so a consumer cannot tell which build
+    they are running. Last-Modified on the served asset was 2026-08-24. Acorn does
+    publish pinnable builds under /paw/v5/versions/<x.y.z>/ (see the next entry) but
+    does not use them in its own integration snippet.
+- name: af-box (Payment Amount Widget, pinned build)
+  official: true
+  registry: cdn
+  kind: web-component
+  url: https://widgets-cdn.acornfinance.com/paw/v5/versions/5.4.2/af-box.min.js
+  version: 5.4.2
+  published: '2026-08-24'
+  note: >-
+    Version read from the URL path, which is the only place Acorn states one. This is
+    the highest version number the documentation names. Date is the CDN Last-Modified
+    header, not a registry publish date.
+- name: af-standard (shared widget runtime)
+  official: true
+  registry: cdn
+  kind: javascript-module
+  url: https://widgets-cdn.acornfinance.com/paw/v5/dist/shared/af-standard.min.js
+  version: null
+  published: '2026-08-24'
+  note: Unpinned distribution path; version not stated anywhere in the URL or docs.
+- name: af-payment-estimator
+  official: true
+  registry: cdn
+  kind: web-component
+  url: https://widgets-cdn.acornfinance.com/payment-estimator/dist/af-payment-estimator.min.js
+  version: null
+  published: '2026-08-24'
+  note: Unpinned; no versions/ path published for this widget.
+- name: acorn-momnt-widget
+  official: true
+  registry: cdn
+  kind: web-component
+  url: https://widgets-cdn.acornfinance.com/momnt/dist/acorn-momnt-widget.min.js
+  version: null
+  published: '2026-08-24'
+  note: Unpinned; Momnt lending-partner widget.
+- name: acorn-finance.min.js (legacy v2)
+  official: true
+  registry: cdn
+  kind: javascript-library
+  url: https://fs.acornfinance.com/lib/js/v2/acorn-finance.min.js
+  version: v2
+  published: '2021-02-16'
+  note: >-
+    Major version from the URL path; no semantic version published. Last-Modified is
+    2021-02-16 — over five years stale and superseded by the v5 web components, but
+    still served and still linked from the Shopify integration pages.
+- name: acorn-finance-shopify-theme.js
+  official: true
+  registry: cdn
+  kind: javascript-library
+  url: https://fs.acornfinance.com/lib/js/v2/shopify/acorn-finance-shopify-theme.js
+  version: v2
+  published: '2021-03-03'
+  note: >-
+    Shopify storefront theme script. Last-Modified 2021-03-03. The companion checkout
+    script is documented with a source link into a GitHub branch
+    (headwaysales/partners, branch i16-shopify-enhancements) that is not publicly
+    readable — the repository returns 404 anonymously.
+- name: acorn-finance-shopify-checkout.js
+  official: true
+  registry: cdn
+  kind: javascript-library
+  url: https://fs.acornfinance.com/lib/js/v2/shopify/acorn-finance-shopify-checkout.js
+  version: v2
+  published: null
+  note: >-
+    Documented at https://docs.acornfinance.com/shopify-checkout. No version is stated
+    and the referenced source repository is private.
+- name: acorn-finance.min.js (payment-amount v4)
+  official: true
+  registry: cdn
+  kind: javascript-library
+  url: https://payment-amount.acornfinance.com/v4/acorn-finance.min.js
+  version: v4
+  published: '2026-05-04'
+  note: >-
+    The v3/v4 payment-amount distribution that precedes the paw/v5 web components.
+    Still served; Last-Modified 2026-05-04.
+sdks: []

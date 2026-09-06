@@ -1,0 +1,44 @@
+generated: '2026-09-06'
+method: searched
+source: https://www.acornfinance.com/contractors/
+plan_count: 1
+currency: USD
+note: >-
+  Acorn Finance publishes one commercial posture for the side of the marketplace that
+  consumes the API — contractors, dealers and point-of-sale software partners — and it
+  is free. There is no metered API pricing, no tiering, no usage quota and no
+  enterprise price list. Acorn is paid by its lending partners on loan origination,
+  not by the integrator. Borrowers are quoted APRs by the individual lenders in the
+  network, which are lender terms rather than an Acorn plan, so they are not modelled
+  as plans here.
+plans:
+- name: Contractor / Partner
+  audience: contractors, dealers, and point-of-sale or contractor-software partners
+  price: 0
+  currency: USD
+  billing_period: none
+  setup_fee: 0
+  monthly_fee: 0
+  dealer_fee: 0
+  included_quota: null
+  overage: null
+  limits: []
+  api_access: >-
+    Included. Partner API credentials are issued on request after company sign-up,
+    with a stated 48-hour weekday turnaround; there is no paid tier that unlocks
+    additional endpoints.
+  published_claims:
+  - No monthly fee
+  - No setup cost
+  - $0 dealer fees — keep more of every job you sell
+  - Offering financing through Acorn Finance is free for contractors with no setup
+    costs and no monthly fees.
+  source: https://www.acornfinance.com/contractors/
+  signup: https://sign-up.acornfinance.com/
+revenue_model: >-
+  Acorn Finance is compensated by the lending partners in its network when a loan
+  originates. Nothing is charged to the contractor, the software partner, or the API
+  consumer.
+api_metering:
+  published: false
+  note: No per-call, per-application or per-seat API pricing is published.

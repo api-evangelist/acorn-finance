@@ -1,0 +1,135 @@
+generated: '2026-09-06'
+method: searched
+source: https://www.acornfinance.com/licenses/
+note: >-
+  Asserted against Acorn Finance's published documentation and legal pages only. No
+  OpenAPI, AsyncAPI or JSON Schema document exists to derive from, so every entry
+  below is either a documented claim or a documented absence. Absences are recorded
+  as conforms:false with the evidence that was checked, not omitted.
+entries:
+- id: oauth2
+  conforms: false
+  evidence: >-
+    https://docs.acornfinance.com/api-sign-up — the only documented mechanism is HTTP
+    Basic. No authorization server, token endpoint, or scope surface exists.
+- id: oidc
+  conforms: false
+  evidence: >-
+    /.well-known/openid-configuration returns 404 or an SPA HTML shell on every Acorn
+    Finance host (see well-known/acorn-finance-well-known.yml).
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    https://docs.acornfinance.com/api-company-user — errors are a proprietary
+    {"errors": ["message"]} envelope served as application/json, not
+    application/problem+json.
+- id: rfc8594
+  conforms: false
+  evidence: >-
+    No Deprecation or Sunset header and no deprecation policy is published
+    (lifecycle/acorn-finance-lifecycle.yml).
+- id: rfc9116
+  conforms: false
+  evidence: >-
+    /.well-known/security.txt returns 404 on api.acornfinance.com,
+    docs.acornfinance.com, my.acornfinance.com and sign-up.acornfinance.com, and 403
+    on www.acornfinance.com.
+- id: pagination
+  conforms: true
+  style: page-number
+  evidence: >-
+    https://docs.acornfinance.com/api-applications — page, per_page and latest request
+    parameters with total_records, page and per_page returned in the body.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No idempotency key or replay-safe write is documented on any mutating endpoint
+    (conventions/acorn-finance-conventions.yml).
+- id: webhooks
+  conforms: true
+  evidence: >-
+    https://docs.acornfinance.com/api-postback — documented provider-to-partner HTTPS
+    postback with a shared-secret header, three status events and a defined request
+    and response body.
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document is served. Probed on 2026-09-06 against
+    api.acornfinance.com, uat.api.acornfinance.com, docs.acornfinance.com and
+    my.acornfinance.com at /openapi.json, /openapi.yaml, /swagger.json,
+    /v1/openapi.json, /api-docs, /apidocs, /docs, /redoc, /spec.json and /apis.json —
+    every hit was either 404 or a single-page-application HTML shell.
+- id: graphql
+  conforms: false
+  evidence: 'https://api.acornfinance.com/graphql returns 404 (Rails not-found page).'
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No AsyncAPI document published; the event surface is documented in prose only
+    (asyncapi/acorn-finance-postback-webhooks.yml).
+domain_standards:
+  note: >-
+    Consumer lending in the United States has no machine-readable contract standard
+    that a marketplace of this shape would declare in its API — there is no FDX/FAPI
+    equivalent for point-of-sale home-improvement lending, and Acorn declares none.
+    This is reward-only, so nothing is asserted. What Acorn DOES publish, and what a
+    buyer in this market actually checks, is licensure, recorded below.
+  entries: []
+regulatory:
+  regime: financial-services / consumer-lending (US)
+  legal_entity: Headway Sales Inc. DBA Acorn Finance
+  nmls_id: '1817022'
+  nmls_evidence: https://www.acornfinance.com/licenses/
+  disclosure_page: https://www.acornfinance.com/licenses/
+  state_licenses:
+  - state: AZ
+    license: 'Arizona Consumer Lender License # CL-1007809'
+  - state: CA
+    license: 'California Finance Lender License # 60DBO-83199'
+  - state: CO
+    license: 'Colorado Mortgage Company Registration, Regulated by the Division of Real Estate, NMLS # 1817022'
+  - state: CT
+    license: 'Connecticut Small Loan Company License # SLC-1817022'
+  - state: IL
+    license: 'Illinois Residential Mortgage License # MB.6761613'
+  - state: ME
+    license: 'Maine Loan Broker License # 1817022'
+  - state: MD
+    license: 'Maryland Credit Services Business License # 1817022'
+  - state: NV
+    license: 'FID Installment Loan Company License # IL11259'
+  - state: NH
+    license: 'New Hampshire Small Loan Lender License # 23516-SM'
+  - state: NJ
+    license: 'New Jersey Consumer Lender License # 2104813'
+  - state: NC
+    license: 'North Carolina Loan Broker Filing Registration # 339'
+  - state: ND
+    license: 'North Dakota Money Broker License # MB103671'
+  - state: OK
+    license: 'Oklahoma Credit Service Organization License # CSO00526'
+  - state: OR
+    license: 'Oregon Consumer Finance License # 1817022'
+  - state: PA
+    license: 'Pennsylvania Consumer Discount Company License # 74960'
+  - state: RI
+    license: 'Rhode Island Loan Broker License # 20224488LB'
+  - state: TN
+    license: 'Industrial Loan and Thrift Company Registration # 173201; Tennessee Mortgage License # 1817022'
+  - state: TX
+    license: 'Regulated Lender License # 159862; SML Mortgage Company License # 159862'
+  - state: VT
+    license: 'Vermont Loan Solicitation License # LSO-1817022; Vermont Mortgage Broker License # MB-1817022'
+  - state: WV
+    license: 'West Virginia Credit Services Organization Registration No. 9B18B'
+  e_sign_disclosure: https://www.acornfinance.com/e-sign/
+  dealer_agreement: https://www.acornfinance.com/dealer-agreement/
+  privacy_policy: https://www.acornfinance.com/privacy-policy/
+security_certifications:
+  published: false
+  note: >-
+    No SOC 2, ISO 27001, PCI DSS, HIPAA or FedRAMP claim is published. No trust
+    center exists — trust.acornfinance.com does not resolve, and
+    probe-security-programs.py found no vulnerability-disclosure or trust-center
+    surface on 2026-09-06. Licensure, not security certification, is the compliance
+    evidence this provider publishes.

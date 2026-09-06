@@ -1,0 +1,227 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.acornfinance.com/overview
+docs:
+- https://docs.acornfinance.com/api-applications
+- https://docs.acornfinance.com/api-company
+- https://docs.acornfinance.com/api-company-user
+- https://docs.acornfinance.com/api-lowestpaymentamount
+- https://docs.acornfinance.com/api-lowestpaymentamountlink
+- https://docs.acornfinance.com/api-active-credential
+- https://docs.acornfinance.com/api-postback
+api: Acorn Finance Partner API
+note: >-
+  Read from the provider's own developer documentation. Acorn Finance publishes no
+  OpenAPI document, so nothing here is derived from a machine-readable contract;
+  every statement below is transcribed from a documented request/response example or
+  a stated rule, and anything the documentation does not state is recorded as
+  undocumented rather than inferred.
+auth_style:
+  mechanism: HTTP Basic
+  header: Authorization
+  detail: see authentication/acorn-finance-authentication.yml
+media_types:
+  request: application/json
+  response: application/json
+  note: >-
+    Documented curl examples send `-H "Content-Type:application/json"` on every call,
+    including GETs.
+naming:
+  resource_paths: snake_case plural collections (/app_companies, /company_users,
+    /company_applications, /active_credentials)
+  hyphenated_paths: >-
+    The two quoting endpoints break the pattern and use kebab-case
+    (/lowest-payment-amount, /lowest-payment-amount-link).
+  request_fields: >-
+    Mixed. The account/application endpoints use snake_case (company_name, app_company_id,
+    email_notification); the lowest-payment-amount-link endpoint uses camelCase
+    (loanAmount, subPurpose, firstName, zipCode, utmSource).
+  consistency_note: >-
+    Field-casing is not uniform across the surface — an integrator has to switch
+    conventions between the account endpoints and the quoting endpoints.
+pagination:
+  style: page-number
+  supported_on:
+  - GET /company_applications
+  request_params:
+  - name: page
+    description: page to return (1-based)
+    example: 1
+  - name: per_page
+    description: 'records per page; documented values: 10, 20, 50, 100'
+    example: 10
+  - name: latest
+    description: 'shortcut for the most recent N applications; documented values: 20,
+      50, 100, 200'
+  response_fields:
+  - total_records
+  - page
+  - per_page
+  cursor: false
+  link_header: false
+  evidence: https://docs.acornfinance.com/api-applications
+filtering:
+  supported_on:
+  - GET /company_applications
+  params:
+  - aid
+  - cid
+  - did
+  - email
+  - first_name
+  - last_name
+  - since
+  - end_date
+  - status
+  - utm_content
+  style: flat query-string equality filters
+  evidence: https://docs.acornfinance.com/api-applications
+field_expansion:
+  supported: false
+  note: No expand/fields/include parameter is documented.
+sparse_fieldsets:
+  supported: false
+metadata:
+  supported: partial
+  detail: >-
+    There is no generic metadata bag, but the surface carries partner-supplied
+    correlation fields end to end — utm_source, utm_campaign, utm_medium, utm_term
+    and utm_content are accepted on the quoting/link endpoints and returned on every
+    application record. utm_content is documented as the partner's own estimate,
+    invoice or document identifier and is the practical join key back to a partner
+    system.
+request_id_tracing:
+  supported: false
+  header: null
+  note: >-
+    No request-id, correlation-id or trace header is documented on requests or
+    responses. An integrator debugging a failed call has no provider-side handle to
+    quote to support.
+versioning:
+  scheme: none
+  in_path: false
+  in_header: false
+  current_version: null
+  note: >-
+    No version segment, header or parameter appears anywhere in the documented
+    surface — endpoints sit at the host root (https://api.acornfinance.com/company_applications).
+    Maturity is communicated in prose instead: the Applications API is labelled
+    "IN BETA, available for testing and in production" and the Lowest Payment Amount
+    API is labelled "Open API, available for testing on UAT and on production".
+  evidence: https://docs.acornfinance.com/api-applications
+error_envelope:
+  shape: '{"errors": [ "<message string>" ]}'
+  format: proprietary
+  rfc9457: false
+  content_type: application/json
+  detail: >-
+    Errors are a JSON object with a single `errors` array of human-readable strings.
+    There is no machine-readable error code, type URI, or field-level pointer. The
+    two quoting endpoints do not use this envelope at all — they return HTTP 200 with
+    a human-readable `message` string and a `stateSupported` / `countrySupported`
+    boolean instead, so an unsupported state is a successful response, not an error.
+  see: errors/acorn-finance-problem-types.yml
+rate_limit_signaling:
+  documented: false
+  headers: []
+  status_on_exhaustion: null
+  note: >-
+    No rate limit, quota, throttle or Retry-After behaviour is documented anywhere in
+    the partner documentation. See rate-limits/acorn-finance-rate-limits.yml.
+idempotency:
+  coverage: none
+  mechanism: none
+  header: null
+  scope: []
+  retention: null
+  detail: >-
+    No idempotency key, request-deduplication token, or replay-safety guarantee is
+    documented on any endpoint. The documentation instead pushes the burden onto the
+    integrator in prose: the Company API and Company User API both list "Only create
+    company and user once" and "Save/Record in your system ... that your user's
+    Company and contact has been created" as integrator requirements, and both
+    require a partner-unique dealer_id and a unique email. Uniqueness on those two
+    fields is the only replay protection on the mutating surface, and it is enforced
+    as a validation failure (HTTP 422), not as a safe replay that returns the
+    original resource.
+  evidence: https://docs.acornfinance.com/api-company
+reversibility:
+  grade: undocumented
+  overall: >-
+    Acorn Finance documents four write operations and no reversal path for any of
+    them. No cancel, delete, deactivate, void, undo or restore endpoint appears in
+    the partner documentation, and no window is stated for any of them. This is not
+    a read-only API, so `na` does not apply — the honest reading is that the write
+    surface exists and its reversibility is simply not published.
+  write_surfaces:
+  - operation: POST /app_companies
+    description: Creates a company and its first admin user
+    reversal_operation: null
+    window: null
+    grade: undocumented
+    note: >-
+      Companies carry an `active` boolean in the response body, but no endpoint to
+      set it is documented. The documentation's own mitigation is procedural — "Only
+      create company and user once".
+    docs: https://docs.acornfinance.com/api-company
+  - operation: POST /company_users
+    description: Creates an additional user for an existing company
+    reversal_operation: null
+    window: null
+    grade: undocumented
+    note: >-
+      Same shape as company creation — an `active` flag is returned, no operation to
+      change it is published.
+    docs: https://docs.acornfinance.com/api-company-user
+  - operation: POST /lowest-payment-amount
+    description: Quotes the lowest monthly payment for a loan amount
+    reversal_operation: null
+    window: null
+    grade: na
+    note: Quote-only; creates no persistent state, so there is nothing to reverse.
+    docs: https://docs.acornfinance.com/api-lowestpaymentamount
+  - operation: POST /lowest-payment-amount-link
+    description: >-
+      Quotes a payment and returns a hosted loan application URL (loanAppUrl). The
+      documentation is explicit that "This endpoint does not create an application by
+      itself."
+    reversal_operation: null
+    window: null
+    grade: na
+    note: >-
+      No application record is created by the call, so the call itself has nothing to
+      reverse. Note the returned loanAppUrl carries applicant data in its query
+      string and the provider instructs partners to treat it as sensitive and keep it
+      out of logs and analytics.
+    docs: https://docs.acornfinance.com/api-lowestpaymentamountlink
+  credential_rotation_reversal:
+    note: >-
+      The one genuinely reversible-feeling behaviour on the surface is credential
+      rotation: GET /active_credentials returns the old key unchanged until a new key
+      has actually been created, so a partner cannot be locked out mid-rotation. The
+      90-day rotation interval is stated; no grace/overlap window for the retired key
+      is.
+    docs: https://docs.acornfinance.com/api-active-credential
+dry_run_mode:
+  supported: true
+  mechanism: separate environment
+  detail: >-
+    There is no per-request dry-run flag, but Acorn Finance publishes a full UAT
+    environment at https://uat.api.acornfinance.com with separately issued
+    credentials, which is where partners are told to rehearse. See
+    sandbox/acorn-finance-sandbox.yml.
+webhooks:
+  supported: true
+  direction: provider-to-partner
+  detail: >-
+    Acorn Finance POSTs loan application status changes to a partner-hosted URL. The
+    partner supplies the URL and an API key out of band; there is no subscription
+    API. See asyncapi/acorn-finance-postback-webhooks.yml.
+cross_links:
+  authentication: authentication/acorn-finance-authentication.yml
+  errors: errors/acorn-finance-problem-types.yml
+  lifecycle: lifecycle/acorn-finance-lifecycle.yml
+  rate_limits: rate-limits/acorn-finance-rate-limits.yml
+  data_model: data-model/acorn-finance-data-model.yml
+  sandbox: sandbox/acorn-finance-sandbox.yml
+  webhooks: asyncapi/acorn-finance-postback-webhooks.yml

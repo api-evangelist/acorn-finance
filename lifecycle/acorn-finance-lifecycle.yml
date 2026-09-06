@@ -1,0 +1,84 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.acornfinance.com/overview
+docs:
+- https://docs.acornfinance.com/api-sign-up
+- https://docs.acornfinance.com/api-applications
+- https://docs.acornfinance.com/api-lowestpaymentamount
+api: Acorn Finance Partner API
+versioning:
+  scheme: none
+  detail: >-
+    No version segment, header or parameter is present in the documented surface.
+    Endpoints are served from the host root. Widget distribution is separately
+    versioned (the Payment Amount Widget is on a /paw/v5/ path with pinnable
+    /paw/v5/versions/<x.y.z>/ builds) but the REST API is not.
+  current_version: null
+maturity_labels:
+- api: Applications API
+  label: IN BETA, available for testing and in production
+  evidence: https://docs.acornfinance.com/api-applications
+- api: Lowest Payment Amount API
+  label: Open API, available for testing on UAT and on production
+  evidence: https://docs.acornfinance.com/api-lowestpaymentamount
+- api: Applications API — utm_content parameter
+  label: partner unique id, in development
+  evidence: https://docs.acornfinance.com/api-applications
+- api: Applications API — Company Parent Id filter
+  label: partner unique id, future development
+  evidence: https://docs.acornfinance.com/api-applications
+deprecation_policy:
+  published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation or sunset policy is published for the Acorn Finance partner API,
+    and no Deprecation or Sunset response header is documented. No Deprecation
+    pointer is emitted.
+  caution: >-
+    developer.acornfinance.com resolves to a Stoplight-hosted portal that carries
+    Acorn Finance branding in its head (title, favicon and logo from
+    www.acornfinance.com) but rendered the API catalogue of an unrelated company,
+    Autopay.io (Norwegian parking payments), in its body when probed on 2026-09-06 —
+    including an "API Deprecation" page. That content is NOT Acorn Finance's and was
+    deliberately excluded from this profile. Acorn Finance's real developer
+    documentation is docs.acornfinance.com.
+status_page:
+  published: false
+  url: null
+  note: >-
+    No status page found. status.acornfinance.com does not resolve; no status or
+    uptime link appears in the documentation or the site footer. No StatusPage
+    pointer is emitted.
+sla:
+  published: false
+  note: >-
+    No uptime or latency SLA is published. The only quantified commitment in the
+    partner documentation is an onboarding one — API credentials are issued "within
+    48 hours Mon-Fri" of the credential request email.
+credential_lifecycle:
+  rotation_interval_days: 90
+  discovery_endpoint: GET /active_credentials
+  expiry_field: expires_on
+  detail: >-
+    Credentials carry created_at and expires_on and are rotated every 90 days. This
+    is the only recurring lifecycle event the provider publishes and the only place
+    the API returns a forward-looking date.
+  evidence: https://docs.acornfinance.com/api-active-credential
+application_lifecycle:
+  states:
+  - NO OFFER
+  - OFFERED
+  - SELECTED
+  - FUNDED
+  - EXPIRED
+  detail: >-
+    Loan applications move through a fixed status set, surfaced as loan_status on
+    GET /company_applications and as processStatus on the partner postback. EXPIRED
+    is a terminal state, but no expiry window is published.
+  evidence: https://docs.acornfinance.com/api-applications
+changelog:
+  published: false
+  note: No dated changelog or release-notes page is published for the partner API.
+deprecated_operations: []

@@ -1,0 +1,161 @@
+generated: '2026-09-06'
+method: derived
+status: candidate
+source: https://docs.acornfinance.com/overview
+note: >-
+  Acorn Finance ships NO MCP server. This file is a derived candidate only: the tools
+  below are a faithful projection of the endpoints Acorn actually documents, written
+  so an agent-readiness review can see what an Acorn MCP server would plausibly
+  expose. Nothing here is served by Acorn Finance and no endpoint URL is asserted.
+  Searched on 2026-09-06: no MCP server appears in Acorn's documentation, on its site,
+  or in any public registry; api.acornfinance.com/mcp returns 404; there is no npm or
+  PyPI package under the company name; github.com/headwaysales has zero public
+  repositories. The candidate tool schemas are additionally constrained by the absence
+  of any OpenAPI document — parameters are transcribed from documentation tables, not
+  parsed from a contract.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+search_evidence:
+- url: https://api.acornfinance.com/mcp
+  status: 404
+- url: https://docs.acornfinance.com/mcp
+  status: 200
+  note: SPA shell — the docs site's catch-all route, not an MCP endpoint
+- registry: npm
+  query: acorn-finance, acornfinance
+  result: no first-party package
+- url: https://github.com/headwaysales
+  status: 200
+  note: organisation exists, 0 public repositories
+candidate_tools:
+- name: get_active_credentials
+  description: Fetch the currently active API credential pair for the calling company.
+  backing_operation: GET /active_credentials
+  inputs: []
+  auth: basic
+  side_effects: none
+  docs: https://docs.acornfinance.com/api-active-credential
+- name: list_loan_applications
+  description: >-
+    List loan applications visible to the calling company, filtered by application id,
+    company id, dealer id, applicant details, status or date range.
+  backing_operation: GET /company_applications
+  inputs:
+  - name: aid
+    description: application id
+  - name: cid
+    description: company id
+  - name: did
+    description: dealer id
+  - name: email
+  - name: first_name
+  - name: last_name
+  - name: since
+    description: ISO date
+  - name: end_date
+    description: ISO date
+  - name: status
+    description: NO OFFER | OFFERED | SELECTED | FUNDED | EXPIRED
+  - name: utm_content
+    description: partner estimate/invoice id
+  - name: latest
+    description: 20 | 50 | 100 | 200
+  - name: page
+  - name: per_page
+    description: 10 | 20 | 50 | 100
+  auth: basic
+  side_effects: none
+  returns_pii: true
+  docs: https://docs.acornfinance.com/api-applications
+- name: create_company
+  description: Create a contractor/dealer company and its first admin user.
+  backing_operation: POST /app_companies
+  required_inputs:
+  - address1
+  - city
+  - company_name
+  - state
+  - where_did_you_hear_about_us
+  - zip
+  optional_inputs:
+  - dealer_id
+  - address2
+  - website_address
+  - parent_company_name
+  - app_company_parent_id
+  - contact
+  auth: basic
+  side_effects: creates persistent records; no documented reversal
+  consequence: high
+  docs: https://docs.acornfinance.com/api-company
+- name: create_company_user
+  description: Create an additional user for an existing company.
+  backing_operation: POST /company_users
+  required_inputs:
+  - app_company_id
+  - email
+  - email_notification
+  - first_name
+  - from
+  - hubspot
+  - kind
+  - last_name
+  - primary_phone
+  optional_inputs:
+  - dealer_id
+  auth: basic
+  side_effects: creates persistent records; no documented reversal
+  consequence: high
+  docs: https://docs.acornfinance.com/api-company-user
+- name: get_lowest_payment_amount
+  description: Quote the lowest monthly payment for a loan amount.
+  backing_operation: POST /lowest-payment-amount
+  required_inputs:
+  - loan_amount
+  auth: basic
+  side_effects: none
+  docs: https://docs.acornfinance.com/api-lowestpaymentamount
+- name: get_lowest_payment_amount_link
+  description: >-
+    Quote a monthly payment and return a hosted loan application URL plus
+    location-aware display copy for the given dealer, amount, project sub-purpose and
+    location.
+  backing_operation: POST /lowest-payment-amount-link
+  required_inputs:
+  - d
+  - loanAmount
+  - subPurpose
+  optional_inputs:
+  - country
+  - state
+  - city
+  - zipCode
+  - streetAddress
+  - apartment
+  - firstName
+  - lastName
+  - email
+  - phoneNumber
+  - cName
+  - mndSuffix
+  - returnUrl
+  - utmSource
+  - utmMedium
+  - utmCampaign
+  - utmTerm
+  - utmContent
+  - actionType
+  - for
+  - source
+  auth: basic
+  side_effects: none — the provider states this endpoint does not create an application
+  handling_note: >-
+    The returned loanAppUrl carries applicant data in its query string; Acorn instructs
+    partners to treat it as sensitive and keep it out of logs and analytics. An agent
+    surfacing this tool must not log the result.
+  docs: https://docs.acornfinance.com/api-lowestpaymentamountlink

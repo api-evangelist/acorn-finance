@@ -1,0 +1,32 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.acornfinance.com/overview
+limit_count: 0
+note: >-
+  Acorn Finance publishes no rate limits. Every page of the partner documentation
+  (api-sign-up, api-active-credential, api-applications, api-company, api-company-user,
+  api-lowestpaymentamount, api-lowestpaymentamountlink, api-postback) was read on
+  2026-09-06 and none states a quota, a throttle, a burst allowance, a 429 behaviour
+  or a Retry-After convention. No RateLimit-* or X-RateLimit-* response header is
+  documented. This is an honest zero — an integrator has no published runtime signal
+  telling it when to back off, and no documented ceiling to design against.
+docs_checked:
+- https://docs.acornfinance.com/overview
+- https://docs.acornfinance.com/api-sign-up
+- https://docs.acornfinance.com/api-active-credential
+- https://docs.acornfinance.com/api-applications
+- https://docs.acornfinance.com/api-company
+- https://docs.acornfinance.com/api-company-user
+- https://docs.acornfinance.com/api-lowestpaymentamount
+- https://docs.acornfinance.com/api-lowestpaymentamountlink
+- https://docs.acornfinance.com/api-postback
+rate_limits: []
+response_headers: []
+status_on_exhaustion: null
+retry_after: null
+pagination_ceiling:
+  note: >-
+    The only quantitative ceiling published anywhere on the surface is a paging one,
+    not a rate one: GET /company_applications documents per_page values of 10, 20, 50
+    and 100 and a `latest` shortcut capped at 200 records.
+  evidence: https://docs.acornfinance.com/api-applications

@@ -1,0 +1,117 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.acornfinance.com/api-sign-up
+docs:
+- https://docs.acornfinance.com/api-sign-up
+- https://docs.acornfinance.com/api-applications
+- https://docs.acornfinance.com/payment-amount
+- https://docs.acornfinance.com/payment-estimator
+- https://docs.acornfinance.com/lenders-list
+api: Acorn Finance Partner API
+note: >-
+  Every value below is published by Acorn Finance in its own partner documentation.
+  Nothing here was invented, and no live credential is recorded — Acorn issues UAT
+  credentials per partner by email and publishes none.
+model: separate-environment
+environments:
+- id: production
+  api_base: https://api.acornfinance.com
+  app_host: https://www.acornfinance.com
+  portal: https://my.acornfinance.com
+- id: uat
+  api_base: https://uat.api.acornfinance.com
+  app_hosts:
+  - https://uat.acornfinance.com
+  - https://uat.acornfinance.dev
+  widget_cdn: https://uat.widgets-cdn.acornfinance.com
+  description: >-
+    A full UAT environment mirroring every documented endpoint. Acorn issues a
+    separate credential pair for it at onboarding.
+- id: qa
+  app_hosts:
+  - https://qa.acornfinance.com
+  - https://qa1.acornfinance.com
+  description: >-
+    QA hosts referenced in the docs host's content-security policy and in the widget
+    integration guide's environment list. Not documented as partner-accessible.
+credentials:
+  self_service: false
+  test_keys_published: false
+  detail: >-
+    Acorn Finance does not publish shared test credentials. Both production and
+    testing credential pairs are created per partner and emailed after sign-up plus a
+    request to it@acornfinance.com. There is no key prefix convention distinguishing
+    test from live — the environments are separated by hostname, not by key shape.
+  evidence: https://docs.acornfinance.com/api-sign-up
+published_test_identifiers:
+  note: >-
+    These are the sample dealer ids and company identifiers Acorn Finance uses
+    throughout its own documentation examples. They identify the documentation's
+    fictional demo partner ("Quotes R Us") and its integration partners, and are the
+    values a reader sees in every curl example.
+  dealer_ids:
+  - id: QRS-QUOTE
+    partner: Quotes R Us (documentation demo company)
+  - id: QRS-0071K000003udVR
+    partner: Quotes R Us — example child-company dealer id
+  - id: QRS-0091K000004mdTX
+    partner: Quotes R Us — example company-user dealer id
+  - id: JBT-1234567
+    partner: JobTread — example partner integration
+  - id: KKN-LENLST
+    partner: Kukun — Lenders List widget example
+  - id: ACN-PAYEST
+    partner: Acorn Finance — Payment Estimator widget example
+  - id: 1-LINK
+    partner: generic loan payment link generator example
+  other_identifiers:
+  - field: cid (company id)
+    value: '244'
+  - field: app_company_parent_id
+    value: '230'
+  - field: aid (application id)
+    value: '17564'
+  dealer_id_prefix_rule: >-
+    Acorn assigns each partner a dealer-id prefix (documented example: QRS-) and the
+    partner appends its own unique suffix.
+hosted_demos:
+- name: Payment Estimator demo
+  url: https://widgets-cdn.acornfinance.com/payment-estimator/demo.html
+- name: Payment Estimator (standalone)
+  url: https://payest.acornfinance.com/demo.html
+- name: Lenders List widget demo
+  url: https://fs.acornfinance.com/widget/lenlst/demo.html
+- name: Lenders List widget (UAT)
+  url: https://fs.acornfinance.com/widget/uat/lenlst/demo.html
+- name: Momnt widget demo (UAT)
+  url: https://uat.widgets-cdn.acornfinance.com/momnt/src/momnt-demo.html
+- name: Quotes R Us reference integration
+  url: https://fs.acornfinance.com/demo/quotes-r-us/index.html
+test_scenarios_published:
+  note: >-
+    The Lowest Payment Amount documentation enumerates the exact loan amounts that
+    exercise each branch, which is effectively a published test matrix.
+  scenarios:
+  - loan_amount: 989
+    expectation: below the $1,000 floor — no quote, message returned
+  - loan_amount: 12500
+    expectation: inside $1,000-$100,000 — quote returned
+  - loan_amount: 125467
+    expectation: above $100,000 — quote clamped to a $100,000 basis, message returned
+  - loan_amount: null
+    expectation: '"No Valid Loan Amount"'
+  state_boundaries:
+  - state: GA
+    minimum: 3001
+  - state: TX
+    minimum: 2000
+  - state: MA
+    minimum: 6700
+  - country: CA
+    range: 2000-35000 CAD
+    unsupported_provinces:
+    - QC
+    - SK
+test_clocks: false
+fixture_tooling: false
+mock_server: false

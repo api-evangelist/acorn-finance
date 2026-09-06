@@ -64,5 +64,28 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Acorn Finance is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+Acorn Finance, operated by Headway Sales Inc. (NMLS ID# 1817022) of Sacramento, California, runs an
+embedded lending marketplace for home improvement and business financing. Consumers pre-qualify for
+personal loans of $1,000 to $100,000 through a soft credit pull and compare offers from a network of
+lending partners, while contractors, dealers and point-of-sale software vendors embed those offers
+into estimates, invoices, quotes, carts and PDFs.
+
+Acorn Finance publishes a public partner developer program at
+[docs.acornfinance.com](https://docs.acornfinance.com/overview) covering a Basic-authenticated REST
+API on `api.acornfinance.com` (company and user provisioning, loan application retrieval, 90-day API
+key rotation, and lowest-payment-amount quoting), a partner postback webhook, and a family of
+embeddable JavaScript widgets served from `widgets-cdn.acornfinance.com`. A full UAT environment is
+published at `uat.api.acornfinance.com`.
+
+**No machine-readable contract is published.** OpenAPI, Swagger, GraphQL, AsyncAPI, WSDL, Protobuf,
+Postman, `/.well-known/` documents, MCP and A2A were all probed on 2026-09-06 across every Acorn
+Finance host and every one missed. The artifacts in this repository are transcribed from the
+provider's own public documentation, not derived from a spec.
+
+**Note on `developer.acornfinance.com`.** That host serves a Stoplight portal carrying Acorn Finance
+branding in its page head while rendering the API catalogue of an unrelated company (Autopay.io) in
+its body. It is not Acorn Finance's documentation and nothing from it was used here. The real
+developer documentation is `docs.acornfinance.com`.
+
+- https://www.acornfinance.com/
+- https://docs.acornfinance.com/

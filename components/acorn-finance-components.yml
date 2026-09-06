@@ -1,0 +1,128 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.acornfinance.com/payment-amount
+docs:
+- https://docs.acornfinance.com/payment-amount
+- https://docs.acornfinance.com/payment-estimator
+- https://docs.acornfinance.com/lenders-list
+- https://docs.acornfinance.com/momnt-widget
+- https://docs.acornfinance.com/shopify
+- https://docs.acornfinance.com/shopify-checkout
+- https://docs.acornfinance.com/loan-payment-link-generator
+- https://docs.acornfinance.com/loan-platform-parameters
+note: >-
+  Acorn Finance's primary integration surface is not the REST API but a family of
+  embeddable client-side widgets. These are distinct from SDKs: they render UI in the
+  partner's page rather than wrapping the API. Acorn ships no client library for any
+  language.
+loaders:
+- id: af-standard
+  url: https://widgets-cdn.acornfinance.com/paw/v5/dist/shared/af-standard.min.js
+  type: module
+  role: shared runtime loaded alongside the Payment Amount web components
+  uat_url: https://uat.widgets-cdn.acornfinance.com/paw/v5/dist/shared/af-standard.min.js
+families:
+- id: payment-amount-widget
+  name: Payment Amount Widget (PAW)
+  description: >-
+    Acorn's flagship embeddable widget. Displays an estimated monthly payment line
+    for a given project amount and links through to the hosted loan application. The
+    provider documents placing it on proposals, estimates, quotes, invoices, shopping
+    carts and generated PDFs.
+  components:
+  - tag: af-box
+    url: https://widgets-cdn.acornfinance.com/paw/v5/dist/af-box.min.js
+    type: module
+    pinned_builds: https://widgets-cdn.acornfinance.com/paw/v5/versions/5.4.2/af-box.min.js
+  legacy_distributions:
+  - https://fs.acornfinance.com/lib/js/v1/acorn-finance.min.js
+  - https://fs.acornfinance.com/lib/js/v2/acorn-finance.min.js
+  - https://payment-amount.acornfinance.com/v3/acorn-finance.min.js
+  - https://payment-amount.acornfinance.com/v4/acorn-finance.min.js
+  stylesheets:
+  - https://fs.acornfinance.com/lib/js/v2/acorn-finance.min.css
+  - https://payment-amount.acornfinance.com/v4/acorn-finance.min.css
+  display_modes:
+  - inline payment line
+  - popup / "Learn how" modal
+  - full page
+  - PDF link
+  docs: https://docs.acornfinance.com/payment-amount
+- id: payment-estimator
+  name: Payment Estimator
+  description: >-
+    A standalone estimator surface with a loan-amount input, offer preview, optional
+    QR code and configurable CTA. Embeddable as a script module or as an iframe of
+    the hosted page.
+  components:
+  - tag: af-payment-estimator
+    url: https://widgets-cdn.acornfinance.com/payment-estimator/dist/af-payment-estimator.min.js
+    type: module
+  hosted_iframe: https://widgets-cdn.acornfinance.com/payment-estimator/payment-estimator.html
+  standalone_host: https://payest.acornfinance.com
+  configuration_params:
+  - d
+  - amount
+  - subPurpose
+  - theme
+  - buttonLabel
+  - buttonColor
+  - buttonTextColor
+  - autofocus
+  - qrcode
+  - showButtonTitle
+  - showFindLoanButton
+  - showLogos
+  - promo
+  - urlPrefix
+  docs: https://docs.acornfinance.com/payment-estimator
+- id: lenders-list
+  name: Lenders List Widget
+  description: >-
+    Renders the matching lender offers for an amount and project sub-purpose. Embedded
+    as a hosted iframe rather than a script module.
+  hosted_iframe: https://fs.acornfinance.com/widget/lenlst/index.html
+  uat_iframe: https://fs.acornfinance.com/widget/uat/lenlst/index.html
+  configuration_params:
+  - theme
+  - amount
+  - slider
+  - subPurpose
+  - d
+  - maxOffers
+  - urlPrefix
+  - cname
+  docs: https://docs.acornfinance.com/lenders-list
+- id: momnt-widget
+  name: Momnt Widget
+  description: >-
+    A widget for the Momnt lending partner integration, distributed as its own
+    module bundle.
+  components:
+  - tag: acorn-momnt-widget
+    url: https://widgets-cdn.acornfinance.com/momnt/dist/acorn-momnt-widget.min.js
+    type: module
+  docs: https://docs.acornfinance.com/momnt-widget
+- id: shopify
+  name: Shopify theme + checkout integration
+  description: >-
+    Drop-in scripts for Shopify storefronts — a theme script that renders the Acorn
+    payment line on product pages, and a checkout script for the cart/checkout
+    surface.
+  assets:
+  - https://fs.acornfinance.com/lib/js/v2/shopify/acorn-finance-shopify-theme.js
+  - https://fs.acornfinance.com/lib/js/v2/shopify/acorn-finance-shopify-theme.css
+  - https://fs.acornfinance.com/lib/js/v2/shopify/acorn-finance-shopify-checkout.js
+  docs: https://docs.acornfinance.com/shopify
+- id: hosted-application-links
+  name: Hosted application links
+  description: >-
+    Not a component but the lowest-effort integration: a parameterised URL to Acorn's
+    hosted application flow. Documented parameter surface covers dealer id, loan
+    amount, sub-purpose, applicant identity and address prefill, and the full UTM set.
+  hosts:
+  - https://www.acornfinance.com/apply/
+  - https://www.acornfinance.com/apply-ptr/
+  - https://pr.acornfinance.com/app-page-1
+  - https://fs.acornfinance.com/calc/index.html
+  docs: https://docs.acornfinance.com/loan-platform-parameters

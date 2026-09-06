@@ -1,0 +1,112 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.acornfinance.com/api-postback
+api: Acorn Finance Partner Postback API
+note: >-
+  Acorn Finance publishes no AsyncAPI document and no event-streaming surface. It does
+  publish a real webhook: the Partner Postback API, in which Acorn POSTs loan
+  application status changes to a URL the partner hosts. This artifact captures that
+  webhook catalog. No AsyncAPI pointer is emitted because no AsyncAPI specification
+  exists; the `Webhooks` pointer is emitted because the surface is genuinely
+  documented and published.
+transport: https
+direction: provider-to-partner
+subscription:
+  self_service: false
+  mechanism: out-of-band
+  detail: >-
+    There is no subscription or webhook-management API. The partner shares its
+    postback URL and API key with the Acorn team, who enter them into the dealer
+    portal.
+  evidence: https://docs.acornfinance.com/api-postback
+endpoint_requirements:
+- field: postback-url
+  required: true
+  validation: >-
+    Must be https. Must not contain the characters != & % ^ $ # @ *. Must not begin
+    or end with a hyphen.
+- field: postback-api-key
+  required: true
+  validation: Must be a string and must not contain a comma.
+authentication:
+  scheme: shared secret in a request header
+  header: X-Authorization
+  value: the partner-supplied postback API key
+  signature: none
+  detail: >-
+    Acorn presents the partner's own API key back to the partner on each call. There
+    is no HMAC signature, no timestamp, and no replay-prevention nonce documented, so
+    a partner cannot cryptographically verify that a postback originated with Acorn
+    beyond the shared secret.
+  evidence: https://docs.acornfinance.com/api-postback
+events:
+- id: application.offered
+  process_status: OFFERED
+  description: The applicant received one or more loan offers.
+- id: application.no-offer
+  process_status: NO OFFER
+  description: No lender in the network extended an offer.
+- id: application.funded
+  process_status: FUNDED
+  description: A selected loan was funded.
+note_on_states: >-
+  The postback documentation names offered, no-offers and funded as the triggering
+  events. The full application state set surfaced on GET /company_applications also
+  includes SELECTED and EXPIRED; the documentation additionally says emails are sent
+  for "offered, selected and funded applications", so whether SELECTED triggers a
+  postback is ambiguous in the published material and is not asserted here.
+request:
+  method: POST
+  content_type: application/json
+  target: partner-hosted URL
+  fields:
+  - name: partnerId
+    description: >-
+      The utm_content value carried on the Payment Amount Widget; represents the
+      partner's own estimate or document id.
+  - name: dealerId
+    description: The Acorn dealer id for the company user on the application.
+  - name: processStatus
+    description: OFFERED | NO OFFER | FUNDED
+  - name: loanAmount
+  - name: applicationId
+  - name: applicationDate
+  - name: firstName
+  - name: lastName
+  - name: phoneNumber
+  - name: email
+  pii_note: >-
+    The postback body carries applicant name, phone number and email address. Partners
+    receiving it are receiving consumer PII from a licensed lender-broker.
+response:
+  description: >-
+    Unusually, this webhook expects a data-bearing response. Acorn uses the partner's
+    reply to compose the borrower-facing Offered / No Offers / Funded emails, so the
+    partner's endpoint is effectively an inbound lookup API as well as an event sink.
+  fields:
+  - name: sendEmail
+    type: boolean
+    description: >-
+      Master switch. When false, Acorn sends no emails to the users on the
+      application and the remaining fields are ignored.
+  - name: overRideRepInfo
+    type: boolean
+    description: >-
+      When true, Acorn uses the rep identity from this response instead of the saved
+      dealer record when generating the email.
+  - name: displayName
+  - name: repFirstName
+  - name: repLastName
+  - name: repEmail
+  - name: companyName
+  - name: projectName
+  - name: projectUrl
+  - name: projectAddress
+retry_policy:
+  published: false
+  note: No retry, backoff, timeout or delivery-guarantee behaviour is documented.
+delivery_guarantee:
+  published: false
+ip_allowlist:
+  published: false
+asyncapi_spec: false

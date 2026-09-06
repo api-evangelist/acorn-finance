@@ -1,18 +1,63 @@
 aid: acorn-finance
 name: Acorn Finance
-description: 'Acorn Finance is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: Acorn Finance, operated by Headway Sales Inc. (NMLS ID# 1817022) of Sacramento,
+  California, runs an embedded lending marketplace for home improvement and business
+  financing. Consumers pre-qualify for personal loans of $1,000 to $100,000 through
+  a soft credit pull and compare offers from a network of lending partners, while
+  contractors, dealers and point-of-sale software vendors embed those offers into
+  estimates, invoices, quotes, carts and PDFs. Acorn Finance publishes a public partner
+  developer program at docs.acornfinance.com covering a Basic-authenticated REST API
+  on api.acornfinance.com (company and user provisioning, loan application retrieval,
+  API key rotation and lowest-payment-amount quoting), a partner postback webhook,
+  and a family of embeddable JavaScript widgets served from widgets-cdn.acornfinance.com.
 url: https://raw.githubusercontent.com/api-evangelist/acorn-finance/refs/heads/main/apis.yml
+image: https://www.acornfinance.com/wp-content/uploads/2022/02/acorn-finance-logo-compressed.svg
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
+x-enrichment:
+  date: '2026-09-06'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v3
 created: '2026-09-06'
 modified: '2026-09-06'
 tags:
 - Company
-apis: []
+- Financial Services
+- Lending
+- Loans
+- Home Improvement
+- Embedded Finance
+- Point of Sale
+- Consumer Finance
+- Fintech
+- Webhooks
+apis:
+- aid: acorn-finance-partner-api
+  name: Acorn Finance Partner API
+  description: The Acorn Finance partner REST API. Basic-authenticated JSON endpoints
+    on api.acornfinance.com let point-of-sale and contractor-software partners create
+    companies and company users, retrieve loan application status, rotate API credentials,
+    and request the lowest monthly payment amount (and a hosted loan application URL)
+    for a given loan amount, project sub-purpose and location. A UAT environment is
+    published at uat.api.acornfinance.com.
+  humanURL: https://docs.acornfinance.com/overview
+  baseURL: https://api.acornfinance.com
+  image: https://www.acornfinance.com/wp-content/uploads/2022/02/acorn-finance-logo-compressed.svg
+  tags:
+  - Lending
+  - Loans
+  - Applications
+  - Embedded Finance
+  - Point of Sale
+  properties:
+  - type: Documentation
+    url: https://docs.acornfinance.com/overview
+  - type: APIReference
+    url: https://docs.acornfinance.com/api-applications
+  - type: GettingStarted
+    url: https://docs.acornfinance.com/api-sign-up
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +65,62 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://www.nasdaqprivatemarket.com/
+  url: https://www.acornfinance.com/
+- type: DeveloperPortal
+  url: https://docs.acornfinance.com/
+- type: Documentation
+  url: https://docs.acornfinance.com/overview
+- type: APIReference
+  url: https://docs.acornfinance.com/api-applications
+- type: GettingStarted
+  url: https://docs.acornfinance.com/api-sign-up
+- type: SignUp
+  url: https://sign-up.acornfinance.com/
+- type: Login
+  url: https://my.acornfinance.com/
+- type: Support
+  url: https://www.acornfinance.com/contact-us/
+- type: HelpCenter
+  url: https://www.acornfinance.com/faq/
+- type: Blog
+  url: https://www.acornfinance.com/blogpost_category/news/
+- type: Pricing
+  url: https://www.acornfinance.com/contractors/
+- type: TermsOfService
+  url: https://www.acornfinance.com/terms-of-use/
+- type: PrivacyPolicy
+  url: https://www.acornfinance.com/privacy-policy/
+- type: GitHubOrganization
+  url: https://github.com/headwaysales
+- type: DomainSecurity
+  url: security/acorn-finance-domain-security.yml
+- type: Authentication
+  url: authentication/acorn-finance-authentication.yml
+- type: Conventions
+  url: conventions/acorn-finance-conventions.yml
+- type: ErrorCatalog
+  url: errors/acorn-finance-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/acorn-finance-lifecycle.yml
+- type: Conformance
+  url: conformance/acorn-finance-conformance.yml
+- type: Compliance
+  url: conformance/acorn-finance-conformance.yml
+- type: Webhooks
+  url: asyncapi/acorn-finance-postback-webhooks.yml
+- type: Sandbox
+  url: sandbox/acorn-finance-sandbox.yml
+- type: Components
+  url: components/acorn-finance-components.yml
+- type: DataModel
+  url: data-model/acorn-finance-data-model.yml
+- type: Packages
+  url: packages/acorn-finance-packages.yml
+- type: Plans
+  url: plans/acorn-finance-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/acorn-finance-rate-limits.yml
+- type: LLMsTxt
+  url: llms/acorn-finance-llms.txt
+- type: X-MCPServerCandidate
+  url: mcp/acorn-finance-mcp.yml

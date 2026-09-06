@@ -1,0 +1,274 @@
+generated: '2026-09-06'
+method: derived
+source: https://docs.acornfinance.com/api-company
+note: >-
+  Derived from the request and response bodies Acorn Finance publishes verbatim in its
+  partner documentation. There is no OpenAPI document and no components/schemas block
+  to read, so field lists are transcribed from documented examples and are complete
+  only to the extent the examples are. Field values from the documentation's examples
+  (which contain sample personal names, emails and phone numbers) are deliberately not
+  reproduced here.
+entities:
+- name: AppCompany
+  description: >-
+    A contractor or dealer company enrolled with Acorn Finance. Created by POST
+    /app_companies together with its first admin user.
+  id_field: id
+  id_type: integer
+  created_by: POST /app_companies
+  fields:
+  - id
+  - company_name
+  - legal_name
+  - business_name
+  - dealer_id
+  - website_address
+  - industry_type
+  - business_type
+  - federal_tax_id
+  - business_license
+  - business_start_date
+  - address1
+  - address2
+  - city
+  - state
+  - zip
+  - res_annual_sales
+  - res_finance_volume
+  - res_avg_project_size
+  - com_annual_sales
+  - com_finance_volume
+  - com_avg_project_size
+  - project_type_selected
+  - who_using_for_financing
+  - where_did_you_hear_about_us
+  - agree_to_dealer_agreement
+  - agree_to_dealer_agreement_at
+  - agree_to_dealer_agreement_by_id
+  - account_manager
+  - active
+  - enrollment_date
+  - parent_company_name
+  - parent_association_name
+  - association_name
+  - app_company_parent_id
+  - company_number_of_employees
+  - af_vertical
+  - authorization_level
+  - dealer_website_link
+  - web_banner
+  - source
+  - hubspot_company_id
+  - hubspot_parent_company_id
+  - hubspot_company_exists
+  - comments
+  - created_at
+  - updated_at
+  required_on_create:
+  - address1
+  - city
+  - company_name
+  - state
+  - where_did_you_hear_about_us
+  - zip
+  relationships:
+  - type: has_many
+    target: AppCompanyUser
+    via: AppCompanyUser.app_company_id
+  - type: belongs_to
+    target: AppCompany
+    via: app_company_parent_id
+    note: >-
+      Self-referential. A partner creating child companies passes
+      app_company_parent_id and parent_company_name, which makes the company graph a
+      one-level (documented) parent/child hierarchy.
+  docs: https://docs.acornfinance.com/api-company
+- name: AppCompanyUser
+  description: >-
+    A user belonging to a company — the contractor's sales rep or an integration
+    service identity. Carries the dealer_id that tags every application.
+  id_field: id
+  id_type: integer
+  created_by: POST /company_users
+  fields:
+  - id
+  - first_name
+  - middle_name
+  - last_name
+  - title
+  - email
+  - primary_phone
+  - secondary_phone
+  - certification
+  - dealer_id
+  - app_company_id
+  - kind
+  - access_level
+  - role
+  - active
+  - login_required
+  - enrollment_date
+  - apply_url
+  - portal_url
+  - landing_page_link
+  - original_url
+  - sent_link
+  - email_sent
+  - email_notification
+  - text_notification
+  - manager_first_name
+  - manager_last_name
+  - manager_email
+  - manager_send_emails
+  - prs_assigned
+  - headway_dealer_id
+  - source
+  - hubspot_contact_vid
+  - hubspot_contact_exists
+  - comments
+  - created_at
+  - updated_at
+  required_on_create:
+  - app_company_id
+  - email
+  - email_notification
+  - first_name
+  - from
+  - hubspot
+  - kind
+  - last_name
+  - primary_phone
+  enumerations:
+    kind:
+    - Integration
+    - Website
+    access_level:
+    - viewer
+    role:
+    - company
+  relationships:
+  - type: belongs_to
+    target: AppCompany
+    via: app_company_id
+  - type: has_many
+    target: LoanApplication
+    via: LoanApplication.dealer_id
+  docs: https://docs.acornfinance.com/api-company-user
+- name: LoanApplication
+  description: >-
+    A consumer's financing application, attributed to a dealer id and a company. Read
+    only through GET /company_applications; the partner API cannot create one — an
+    application is created by the applicant in Acorn's hosted flow.
+  id_field: application_id
+  id_type: integer
+  created_by: hosted application flow (not an API operation)
+  fields:
+  - application_id
+  - created_at
+  - loan_status
+  - first_name
+  - last_name
+  - email
+  - phonenumber
+  - state
+  - zip
+  - offer_count
+  - loanamount
+  - cb_indicator
+  - funded_partner
+  - funded_date
+  - funded_amount
+  - lender
+  - rep_first_name
+  - rep_last_name
+  - company_name
+  - parent_company_name
+  - dealer_id
+  - user_kind
+  - app_company_parent_id
+  - utm_source
+  - utm_campaign
+  - utm_medium
+  - utm_term
+  - utm_content
+  enumerations:
+    loan_status:
+    - NO OFFER
+    - OFFERED
+    - SELECTED
+    - FUNDED
+    - EXPIRED
+  relationships:
+  - type: belongs_to
+    target: AppCompanyUser
+    via: dealer_id
+  - type: belongs_to
+    target: AppCompany
+    via: company_name / app_company_parent_id
+    note: >-
+      The application record references the company by name and parent id rather than
+      by the numeric company id, even though the collection can be FILTERED by cid.
+  docs: https://docs.acornfinance.com/api-applications
+- name: ApiCredential
+  description: The Basic-auth credential pair issued to a partner company.
+  id_field: username
+  id_type: string
+  fields:
+  - username
+  - password
+  - created_at
+  - expires_on
+  relationships:
+  - type: belongs_to
+    target: AppCompany
+    via: implicit — the credential authenticates one company
+  docs: https://docs.acornfinance.com/api-active-credential
+- name: PaymentQuote
+  description: >-
+    A transient monthly-payment quote. Not persisted and not addressable — returned
+    inline by the two lowest-payment-amount endpoints.
+  id_field: null
+  fields:
+  - value
+  - currency
+  - years
+  - months
+  - interest
+  - message
+  - loanAmount
+  - stateSupported
+  - countrySupported
+  - loanAppUrl
+  - logoUrl
+  - prefix
+  - linkLabel
+  - secondLine
+  relationships: []
+  docs: https://docs.acornfinance.com/api-lowestpaymentamountlink
+- name: PartnerPostback
+  description: >-
+    The event payload Acorn POSTs to a partner-hosted URL on an application status
+    change, and the reply the partner returns.
+  id_field: applicationId
+  relationships:
+  - type: belongs_to
+    target: LoanApplication
+    via: applicationId
+  - type: belongs_to
+    target: AppCompanyUser
+    via: dealerId
+  docs: https://docs.acornfinance.com/api-postback
+identifier_conventions:
+  dealer_id:
+    shape: '<PREFIX>-<partner suffix>'
+    detail: >-
+      Acorn assigns each partner a prefix (documented example QRS-) and the partner
+      appends a unique suffix. Some dealer ids in the documentation are unprefixed
+      five-character codes (IY86O, QR19I, VK81M), which appear to be a legacy or
+      self-service form.
+  utm_content:
+    detail: >-
+      Documented as the partner's own estimate/invoice/document id. It is the practical
+      foreign key from an Acorn application back to a record in the partner's system,
+      and it is echoed on the postback as partnerId.
+render: null

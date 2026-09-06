@@ -1,0 +1,112 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.acornfinance.com/api-company-user
+docs:
+- https://docs.acornfinance.com/api-company
+- https://docs.acornfinance.com/api-company-user
+- https://docs.acornfinance.com/api-active-credential
+- https://docs.acornfinance.com/api-lowestpaymentamount
+- https://docs.acornfinance.com/api-lowestpaymentamountlink
+api: Acorn Finance Partner API
+format: proprietary
+rfc9457: false
+content_type: application/json
+envelope: '{"errors": ["<message>"]}'
+note: >-
+  Acorn Finance publishes no OpenAPI document, so this catalog is not derived from
+  4xx/5xx response objects — it is transcribed from the error responses the partner
+  documentation shows verbatim. It is therefore a floor, not a complete registry:
+  only the failures the provider chose to document appear here. There is no published
+  error-code registry, no machine-readable `code` or `type` field, and no field-level
+  pointer identifying which attribute failed validation.
+problem_types:
+- id: invalid-credentials
+  status: 403
+  title: Invalid Credentials
+  envelope_message: Invalid Credentials
+  detail: >-
+    Returned when the Basic auth credential is not valid for an active company —
+    either the company is inactive or the key itself has been deactivated. The same
+    message is used for both causes, so a partner cannot tell an expired key from a
+    disabled account.
+  remediation: >-
+    Call GET /active_credentials with the previous credential to retrieve the current
+    active key pair; credentials rotate every 90 days. If that also fails, the
+    company is inactive — contact it@acornfinance.com.
+  applies_to:
+  - GET /active_credentials
+  - GET /company_applications
+  - POST /app_companies
+  - POST /company_users
+  evidence: https://docs.acornfinance.com/api-company-user
+- id: missing-data
+  status: 422
+  title: Missing Data
+  envelope_message: Missing Data
+  detail: >-
+    Returned when required attributes are absent from the request body. The response
+    does not name the missing attribute.
+  remediation: >-
+    Check the endpoint's validation table. POST /app_companies requires address1,
+    city, company_name, state, where_did_you_hear_about_us and zip. POST
+    /company_users requires app_company_id, email, email_notification, first_name,
+    from, hubspot, kind, last_name and primary_phone.
+  applies_to:
+  - POST /app_companies
+  - POST /company_users
+  evidence: https://docs.acornfinance.com/api-company-user
+soft_failures:
+  note: >-
+    The two quoting endpoints do not return HTTP errors for business-rule rejections.
+    They answer HTTP 200 with a human-readable `message` and, on the link endpoint,
+    `stateSupported` / `countrySupported` booleans. An integrator that branches on
+    status code alone will treat every one of these as a success.
+  cases:
+  - id: loan-amount-below-minimum
+    status: 200
+    message: Loan Amount must be between $1,000 and $100,000
+    endpoint: POST /lowest-payment-amount
+    detail: Returned when loan_amount is below the $1,000 floor.
+    evidence: https://docs.acornfinance.com/api-lowestpaymentamount
+  - id: loan-amount-above-maximum
+    status: 200
+    message: Requested amount was above the maximum of $100,000. Monthly payment value
+      returned is based on a $100,000 request.
+    endpoint: POST /lowest-payment-amount
+    detail: >-
+      The request is silently clamped — a payment IS returned, computed against
+      $100,000 rather than the requested amount. A caller that ignores `message` will
+      display a payment for a loan the applicant cannot get.
+    evidence: https://docs.acornfinance.com/api-lowestpaymentamount
+  - id: no-valid-loan-amount
+    status: 200
+    message: No Valid Loan Amount
+    endpoint: POST /lowest-payment-amount
+    detail: Returned when loan_amount is null or empty.
+    evidence: https://docs.acornfinance.com/api-lowestpaymentamount
+  - id: state-not-supported
+    status: 200
+    signal: stateSupported = false
+    endpoint: POST /lowest-payment-amount-link
+    detail: >-
+      Returned when the state/province is outside the supported list or the loan
+      amount is outside that state's supported range. No monthly payment quote is
+      returned and loanAppUrl is empty. Documented state floors differ: Georgia
+      $3,001, Texas $2,000, Massachusetts $6,700, other supported U.S. states $1,000.
+    evidence: https://docs.acornfinance.com/api-lowestpaymentamountlink
+  - id: country-or-province-not-supported
+    status: 200
+    signal: countrySupported / stateSupported = false
+    endpoint: POST /lowest-payment-amount-link
+    detail: >-
+      For Canada (country=CA), unsupported provinces — documented as Quebec (QC) and
+      Saskatchewan (SK) — return the non-dollar unsupported contract: prefix "Not
+      available for your location", empty linkLabel, empty secondLine and empty
+      loanAppUrl. The Canadian supported range is $2,000-$35,000 CAD.
+    evidence: https://docs.acornfinance.com/api-lowestpaymentamountlink
+gaps:
+- No published error-code registry or stable machine-readable identifiers.
+- No field-level validation errors — 422 does not say which attribute is missing.
+- No 5xx behaviour documented.
+- Business-rule rejections on the quoting endpoints are HTTP 200, so status-code-only
+  error handling is unsafe.

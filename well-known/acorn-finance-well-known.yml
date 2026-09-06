@@ -1,0 +1,161 @@
+generated: '2026-09-06'
+method: probed
+source: live HTTPS probes of every Acorn Finance host named in apis.yml, the API
+  baseURL, the docs host and the hosts the documentation references
+note: >-
+  Every named /.well-known/ path was probed on every Acorn Finance host. Nothing is
+  served. The 200s recorded below are single-page-application catch-alls that return
+  the site's HTML shell for any unmatched path (docs.acornfinance.com is a Quasar
+  SPA on S3/CloudFront; my.acornfinance.com and sign-up.acornfinance.com are the
+  portal and partner sign-up SPAs) — they are NOT documents and are recorded as
+  misses. www.acornfinance.com answers 403 to /.well-known/* for non-browser clients;
+  the apex 301s to www. No WellKnown or SecurityTxt pointer is emitted because no
+  path returned a real document.
+hosts:
+- host: acornfinance.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+  - path: /.well-known/openid-configuration
+    status: 301
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+  - path: /.well-known/api-catalog
+    status: 301
+  - path: /.well-known/ai-plugin.json
+    status: 301
+  - path: /.well-known/agent-card.json
+    status: 301
+  - path: /.well-known/agent.json
+    status: 301
+- host: www.acornfinance.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: api.acornfinance.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: uat.api.acornfinance.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: docs.acornfinance.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: SPA shell (text/html), not a document — recorded as a miss
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SPA shell (text/html), not a document — recorded as a miss
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SPA shell (text/html), not a document — recorded as a miss
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: my.acornfinance.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: SPA shell (text/html), not a document — recorded as a miss
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SPA shell (text/html), not a document — recorded as a miss
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SPA shell (text/html), not a document — recorded as a miss
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: sign-up.acornfinance.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: SPA shell (text/html), not a document — recorded as a miss
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SPA shell (text/html), not a document — recorded as a miss
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SPA shell (text/html), not a document — recorded as a miss
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: widgets-cdn.acornfinance.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 301
+  - path: /.well-known/api-catalog
+    status: 301
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: fs.acornfinance.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: payest.acornfinance.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 301
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
