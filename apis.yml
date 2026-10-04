@@ -22,7 +22,7 @@ created: '2026-09-06'
 modified: '2026-09-06'
 tags:
 - Company
-- Financial-Services
+- Financial Services
 - Lending
 - Loans
 - Home Improvement
@@ -42,6 +42,7 @@ tags_raw:
 - Consumer Finance
 - Fintech
 - Webhooks
+- Financial-Services
 apis:
 - aid: acorn-finance:acorn-finance-partner-api
   name: Acorn Finance Partner API
