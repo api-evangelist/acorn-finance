@@ -64,28 +64,118 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Acorn Finance, operated by Headway Sales Inc. (NMLS ID# 1817022) of Sacramento, California, runs an
-embedded lending marketplace for home improvement and business financing. Consumers pre-qualify for
-personal loans of $1,000 to $100,000 through a soft credit pull and compare offers from a network of
-lending partners, while contractors, dealers and point-of-sale software vendors embed those offers
-into estimates, invoices, quotes, carts and PDFs.
+Acorn Finance, operated by Headway Sales Inc. (NMLS ID# 1817022) of Sacramento, California, runs an embedded lending marketplace for home improvement and business financing. Consumers pre-qualify for personal loans of $1,000 to $100,000 through a soft credit pull and compare offers from a network of lending partners, while contractors, dealers and point-of-sale software vendors embed those offers into estimates, invoices, quotes, carts and PDFs. Acorn Finance publishes a public partner developer program at docs.acornfinance.com covering a Basic-authenticated REST API on api.acornfinance.com (company and user provisioning, loan application retrieval, API key rotation and lowest-payment-amount quoting), a partner postback webhook, and a family of embeddable JavaScript widgets served from widgets-cdn.acornfinance.com.
 
-Acorn Finance publishes a public partner developer program at
-[docs.acornfinance.com](https://docs.acornfinance.com/overview) covering a Basic-authenticated REST
-API on `api.acornfinance.com` (company and user provisioning, loan application retrieval, 90-day API
-key rotation, and lowest-payment-amount quoting), a partner postback webhook, and a family of
-embeddable JavaScript widgets served from `widgets-cdn.acornfinance.com`. A full UAT environment is
-published at `uat.api.acornfinance.com`.
+**Areas:** Company · Financial Services · Lending · Loans · Home Improvement · Embedded Finance · Point-of-Sale · Consumer Finance · Fintech · Webhook
 
-**No machine-readable contract is published.** OpenAPI, Swagger, GraphQL, AsyncAPI, WSDL, Protobuf,
-Postman, `/.well-known/` documents, MCP and A2A were all probed on 2026-09-06 across every Acorn
-Finance host and every one missed. The artifacts in this repository are transcribed from the
-provider's own public documentation, not derived from a spec.
+## Acorn Finance on APIs.io
 
-**Note on `developer.acornfinance.com`.** That host serves a Stoplight portal carrying Acorn Finance
-branding in its page head while rendering the API catalogue of an unrelated company (Autopay.io) in
-its body. It is not Acorn Finance's documentation and nothing from it was used here. The real
-developer documentation is `docs.acornfinance.com`.
+Everything profiled for Acorn Finance is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/acorn-finance/](https://apis.io/providers/acorn-finance/)** — or go straight to one of the APIs or properties below.
 
-- https://www.acornfinance.com/
-- https://docs.acornfinance.com/
+### APIs (1)
+
+- [Acorn Finance Partner API](https://apis.io/apis/acorn-finance/acorn-finance-partner-api/) — The Acorn Finance partner REST API. Basic-authenticated JSON endpoints on api.acornfinance.com let point-of-sale and contractor-software partners create…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Acorn Finance Postback Webhooks](https://apis.io/asyncapis/acorn-finance/acorn-finance-postback-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [acorn-finance-mcp.yml](https://apis.io/servers/acorn-finance/acorn-finance-mcp-yml/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Acorn Finance Authentication](https://apis.io/security/acorn-finance/acorn-finance-authentication/)
+- [Acorn Finance Domain Security](https://apis.io/security/acorn-finance/acorn-finance-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Acorn Finance Plans Pricing](https://apis.io/plans/acorn-finance/acorn-finance-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Acorn Finance Rate Limits](https://apis.io/rate-limits/acorn-finance/acorn-finance-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.acornfinance.com/)
+- [Documentation](https://docs.acornfinance.com/overview)
+- [Getting started](https://docs.acornfinance.com/api-sign-up)
+- [API reference](https://docs.acornfinance.com/api-applications)
+- [Pricing](https://www.acornfinance.com/contractors/)
+- [Sign up](https://sign-up.acornfinance.com/)
+- [Support](https://www.acornfinance.com/contact-us/)
+- [Blog](https://www.acornfinance.com/blogpost_category/news/)
+- [Terms of service](https://www.acornfinance.com/terms-of-use/)
+- [Privacy policy](https://www.acornfinance.com/privacy-policy/)
+- [GitHub](https://github.com/headwaysales)
+
+## API Evangelist rating
+
+**Kin Score 38.5** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 39.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 26.2 |
+| Access clarity | 67.1 |
+
+**Agent readiness 25.2** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 29.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/acorn-finance/](https://apis.io/providers/acorn-finance/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Acorn Finance: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/acorn-finance/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
